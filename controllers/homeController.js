@@ -1,5 +1,6 @@
 const Url = require('../models/Url');
 const { nanoid } = require('nanoid');
+const { send } = require('express/lib/response');
 
 
 const leerUrls = async(req, res) => {
@@ -53,10 +54,50 @@ const eliminarUrl = async(req, res) => {
         res.send('Error, algo falló');
     }
 
-}
+};
+
+
+const editarUrlForm = async(req,res) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const url = await Url.findById(id).lean();
+        res.render('home', { url });
+
+    } catch(error) {
+        console.log(error);
+        res.send('Error, algo falló');
+    }
+
+};
+
+
+const editarUrl = async(req, res) => {
+
+    const { id } = req.params;
+    const { origin } = req.body;
+
+    try {
+
+        await Url.findByIdAndUpdate(id, { origin });
+        res.redirect('/');
+
+    } catch(error) {
+        console.log(error);
+        res.send('Error, algo falló');
+
+    }
+
+};
+
+
 
 module.exports = {
     leerUrls,
     agregarUrl,
     eliminarUrl,
+    editarUrlForm,
+    editarUrl,
 }
