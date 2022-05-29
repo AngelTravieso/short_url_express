@@ -1,7 +1,10 @@
+const { urlencoded } = require('express');
 const express = require('express');
 const { create } = require('express-handlebars');
+require('dotenv').config();
+require('./database/db');
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 
 
 // Para indicar la extension .hbs y no handlebars 
@@ -23,9 +26,12 @@ app.set('views', './views');
 // Middleware
 app.use(express.static(__dirname + '/public'));
 
+// Habilitar envio de informacion por formulario
+app.use(express.urlencoded({extended: true}));
+
 // Router
 app.use('/', require('./routes/home'));
 app.use('/auth', require('./routes/auth'));
 
 
-app.listen(port, () => console.log(`Servidor corriendo en puerto: ${port}`));
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto: ${PORT}`));
