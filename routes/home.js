@@ -4,10 +4,11 @@ const {
     agregarUrl,
     eliminarUrl, } 
 = require('../controllers/homeController');
+const urlValidar = require('../middlewares/urlValida');
 const router = express.Router();
 
 router.get('/', leerUrls); 
-router.post('/', agregarUrl);
+router.post('/', urlValidar, agregarUrl);
 router.get('/eliminar/:id', eliminarUrl );
 
 
