@@ -1,6 +1,7 @@
 const Url = require('../models/Url');
 const { nanoid } = require('nanoid');
 
+
 const leerUrls = async(req, res) => {
 
     try {
@@ -14,6 +15,7 @@ const leerUrls = async(req, res) => {
     }
 
 };
+
 
 const agregarUrl = async(req,res) => {
 
@@ -35,7 +37,26 @@ const agregarUrl = async(req,res) => {
 
 };
 
+
+const eliminarUrl = async(req, res) => {
+
+    const { id } = req.params;
+
+    try {
+
+        await Url.findByIdAndDelete(id);
+
+        res.redirect('/');
+
+    } catch(error) {
+        console.log(error);
+        res.send('Error, algo falló');
+    }
+
+}
+
 module.exports = {
     leerUrls,
     agregarUrl,
+    eliminarUrl,
 }
