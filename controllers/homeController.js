@@ -2,15 +2,18 @@ const Url = require('../models/Url');
 const { nanoid } = require('nanoid');
 
 const leerUrls = async(req, res) => {
-    const urls = [
-        {origin: 'www.google.com/bluuweb1', shortUrl: 'aksdas1'},
-        {origin: 'www.google.com/bluuweb2', shortUrl: 'aksdas2'},
-        {origin: 'www.google.com/bluuweb3', shortUrl: 'asda663'},
-        {origin: 'www.google.com/bluuweb4', shortUrl: 'asda664'},
-    ];
 
-    res.render('home', { urls });
-}
+    try {
+
+        const urls = await Url.find().lean();
+        res.render('home', { urls });
+
+    } catch(error) {
+        console.log(error);
+        res.send('falló algo...');
+    }
+
+};
 
 const agregarUrl = async(req,res) => {
 
@@ -30,7 +33,7 @@ const agregarUrl = async(req,res) => {
         res.send('Error, algo falló');
     }
 
-}
+};
 
 module.exports = {
     leerUrls,
